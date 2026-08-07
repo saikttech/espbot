@@ -112,7 +112,7 @@ cd espbot-v2
 4. **Tools → Flash Size:** → `4MB (FS:1MB OTA:~1019KB)`
 
 ### 3. Прошить
-Откройте `ESPBOT_v2.ino` и нажмите **Upload** (⬆️).
+Откройте `ESP8266_L298N_wifi_v2.0.ino` и нажмите **Upload** (⬆️).
 
 ---
 
@@ -258,7 +258,7 @@ struct Settings {
 
 ```text
 espbot-v2/
-├── ESPBOT_v2.ino               # Основной код прошивки
+├── ESP8266_L298N_wifi_v2.0.ino # Основной код прошивки
 ├── README.md                   # Этот файл
 ├── LICENSE                     # MIT лицензия
 └── docs/
@@ -321,28 +321,5 @@ in the Software without restriction...
 </p>
 ```
 
-### 💡 Примечание для кода (`.ino` файл):
-Не забудьте внести соответствующие правки в сам код прошивки (`ESPBOT_v2.ino`), чтобы названия совпадали с документацией:
 
-1. **Заголовок при старте:**
-   ```cpp
-   Serial.println(F("║   ESPBOT v2.0 — HI-TECH CTRL     ║"));
-   ```
-2. **Дефолтные значения в EEPROM:**
-   ```cpp
-   strcpy(settings.wifiSSID, "ESPBOT");
-   ```
-3. **Заголовок HTML страницы:**
-   ```html
-   <title>ESPBOT v2.0</title>
-   <h1>⚡ ESPBOT ⚡</h1>
-   ```
-4. **Настройки OTA:**
-   ```cpp
-   ArduinoOTA.setHostname("ESPBOT");
-   ArduinoOTA.setPassword("espbot"); 
-   ```
-5. **Приветствие CLI:**
-   ```cpp
-   Serial.println(F("\n========= ESPBOT CLI ========="));
-   ```
+  
