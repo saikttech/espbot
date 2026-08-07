@@ -51,15 +51,16 @@ __pycache__/
 *~
 
 # =========================
-# Секреты и локальные настройки
+# СЕКРЕТЫ (НЕ коммитить!)
 # =========================
 secrets.h
+secrets.local.h
 config.local.h
 wifi.local.h
 .env
 *.local
 
-# Разрешаем примеры секретов/конфигов
+# Разрешаем примеры
 !secrets.example.h
 !config.example.h
 
