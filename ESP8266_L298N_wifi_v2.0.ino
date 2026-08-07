@@ -2,6 +2,7 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoOTA.h>
 #include <EEPROM.h>
+#include "secrets.h"
 
 // ========== КОНФИГУРАЦИЯ ПИНОВ (L298N) ==========
 const int motorPins[4] = {5, 13, 12, 14}; // IN1, IN2, IN3, IN4 (GPIO)
@@ -35,12 +36,22 @@ void loadSettings() {
   EEPROM.begin(512);
   EEPROM.get(0, settings);
   if (settings.valid != VALID_MARKER) {
-    strcpy(settings.wifiSSID, "ESPBOT");
-    strcpy(settings.wifiPass, "12345678");
-    strcpy(settings.webUser, "admin");
-    strcpy(settings.webPass, "admin");
+    // Используем значения из secrets.h при первой инициализации
+    strncpy(settings.wifiSSID, WIFI_SSID, sizeof(settings.wifiSSID) - 1);
+    settings.wifiSSID[sizeof(settings.wifiSSID) - 1] = '\0';
+    
+    strncpy(settings.wifiPass, WIFI_PASS, sizeof(settings.wifiPass) - 1);
+    settings.wifiPass[sizeof(settings.wifiPass) - 1] = '\0';
+    
+    strncpy(settings.webUser, WEB_LOGIN, sizeof(settings.webUser) - 1);
+    settings.webUser[sizeof(settings.webUser) - 1] = '\0';
+    
+    strncpy(settings.webPass, WEB_PASS, sizeof(settings.webPass) - 1);
+    settings.webPass[sizeof(settings.webPass) - 1] = '\0';
+    
     settings.valid = VALID_MARKER;
     saveSettings();
+    Serial.println(F("[EEPROM] Initialized with secrets.h values"));
   }
   EEPROM.end();
 }
@@ -50,7 +61,7 @@ void saveSettings() {
   EEPROM.put(0, settings);
   EEPROM.commit();
   EEPROM.end();
-  Serial.println("[EEPROM] Settings saved");
+  Serial.println(F("[EEPROM] Settings saved"));
 }
 
 // ========== МОТОРЫ ==========
@@ -88,7 +99,7 @@ void handleCommand(String cmd) {
     Serial.println(F("backup        - EEPROM hex dump"));
     Serial.println(F("speed <0-1023>- Set motor PWM"));
     Serial.println(F("reboot        - Restart ESP"));
-    Serial.println(F("=================================\n"));
+    Serial.println(F("==============================\n"));
   }
   else if (cmd == "status") {
     Serial.println(F("\n====== STATUS ======"));
@@ -218,7 +229,7 @@ void handleRoot() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>RO$BOT v2.0</title>
+<title>ESPBOT v2.0</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
 body{min-height:100vh;background:radial-gradient(circle at 20% 30%,#0a0f1a,#010101);display:flex;justify-content:center;align-items:center;font-family:'Courier New',monospace;padding:20px}
@@ -240,7 +251,7 @@ h1{font-size:1.6rem;font-weight:800;text-align:center;letter-spacing:3px;backgro
 </head>
 <body>
 <div class="glass">
-<h1>⚡ RO$BOT ⚡</h1>
+<h1>⚡ ESPBOT ⚡</h1>
 <div style="text-align:center"><span class="sub">[ L298N DRIVE v2.0 ]</span></div>
 <div class="adc-card">
 <div class="adc-label">ADC A0 SENSOR</div>
@@ -261,7 +272,7 @@ h1{font-size:1.6rem;font-weight:800;text-align:center;letter-spacing:3px;backgro
 </div>
 <div class="footer">
 HOLD → MOVE &nbsp;|&nbsp; RELEASE → STOP<br>
-&copy; sa &nbsp;|&nbsp; <a href="http://www.juniorgenius.ru/it" target="_blank">www.juniorgenius.ru</a>
+&copy; sa &nbsp;|&nbsp; <a href="http://www.juniorgenius.ru/it" target="_blank">www.juniorgenius.ru/it</a>
 </div>
 </div>
 <script>
@@ -310,8 +321,8 @@ setInterval(updADC,500);updADC();
 
 // ========== OTA ==========
 void setupOTA() {
-  ArduinoOTA.setHostname("ESP8266ROBOT");
-  ArduinoOTA.setPassword("admin"); // пароль для OTA
+  ArduinoOTA.setHostname("ESPBOT");
+  ArduinoOTA.setPassword(OTA_PASS);
   ArduinoOTA.onStart([](){
     stopMotors();
     Serial.println(F("[OTA] Start"));
@@ -332,8 +343,8 @@ void setup() {
   delay(500);
   Serial.println(F("\n\n"));
   Serial.println(F("╔══════════════════════════════════╗"));
-  Serial.println(F("║   RO$BOT v2.0 — HI-TECH CTRL  ║"));
-  Serial.println(F("║   (c) sa | juniorgenius.ru     ║"));
+  Serial.println(F("║   ESPBOT v2.0 — HI-TECH CTRL     ║"));
+  Serial.println(F("║   (c) sa | juniorgenius.ru/it    ║"));
   Serial.println(F("╚══════════════════════════════════╝"));
 
   loadSettings();
