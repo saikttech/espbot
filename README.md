@@ -1,6 +1,4 @@
-# espbot
-ESPBOT — это автономная прошивка для ESP8266, превращающая её в полноценного WiFi-робота на драйвере L298N. Робот сам раздаёт WiFi (режим AP), управляется через адаптивный Hi-Tech интерфейс из браузера с защитой логином/паролем, поддерживает прошивку "по воздуху" (OTA) и гибкую настройку через Serial-консоль (смена WiFi, паролей, бэкап EEPROM).
-
+# 📖 README.md — ESPBOT v2.0
 
 ```markdown
 # ⚡ ESPBOT v2.0 — ESP8266 WiFi WebRobot
@@ -9,12 +7,13 @@ ESPBOT — это автономная прошивка для ESP8266, прев
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-2.0-orange.svg)]()
 [![Arduino](https://img.shields.io/badge/Arduino-IDE%202.x-blue.svg)](https://www.arduino.cc/)
+[![Build](https://img.shields.io/badge/Build-Passing-success.svg)]()
 
 <p align="center">
   <img src="docs/espbot_banner.png" alt="ESPBOT" width="600"/>
 </p>
 
-**ESPBOT v2.0** — современная Hi-Tech прошивка для ESP8266, превращающая микроконтроллер в полноценного WiFi-робота с веб-интерфейсом, авторизацией, OTA-обновлениями и CLI-консолью через Serial.
+**ESPBOT v2.0** — современная Hi-Tech прошивка для ESP8266, превращающая микроконтроллер в полноценного WiFi-робота на драйвере L298N с веб-интерфейсом, авторизацией, OTA-обновлениями и CLI-консолью через Serial.
 
 > 🤖 Управляй роботом прямо из браузера через точку доступа ESP8266!
 
@@ -23,15 +22,32 @@ ESPBOT — это автономная прошивка для ESP8266, прев
 ## 🌟 Возможности
 
 - 📡 **WiFi Access Point** — ESP8266 сам раздаёт WiFi (не требует роутера)
-- 🔐 **HTTP Basic Auth** — защита веб-интерфейса логином/паролем (admin/admin)
+- 🔐 **HTTP Basic Auth** — защита веб-интерфейса логином/паролем (`admin`/`admin`)
 - 🚀 **OTA обновления** — прошивка "по воздуху" через Arduino IDE
-- ⚙️ **L298N Driver** — полная поддержка драйвера моторов с ШИМ-управлением скоростью
-- 💾 **EEPROM хранение** — настройки сохраняются между перезагрузками
+- ⚙️ **L298N Driver** — поддержка драйвера с ШИМ-управлением скоростью (ENA/ENB)
+- 💾 **EEPROM хранение** — все настройки сохраняются между перезагрузками
 - 📟 **Serial CLI** — 8 команд для конфигурации без веб-интерфейса
-- 📱 **Адаптивный Hi-Tech UI** — работает на смартфонах и ПК
+- 🔒 **Секреты через `secrets.h`** — пароли не коммитятся в git
+- 📱 **Адаптивный Hi-Tech UI** — glassmorphism дизайн для смартфонов и ПК
 - 🎮 **Hold-to-Move** — удержание кнопки для движения (как в консольных играх)
 - 📊 **ADC датчик A0** — подключение аналоговых сенсоров (ИК, УЗ, освещённость)
-- 🎛️ **ШИМ регулятор** — плавная настройка мощности моторов в реальном времени
+- 🎛️ **ШИМ регулятор** — плавная настройка мощности моторов 0-1023
+
+---
+
+## 🔄 Сравнение с v1.0
+
+| Возможность | v1.0 (оригинал) | v2.0 (ESPBOT) |
+|---|---|---|
+| **Режим WiFi** | STA (клиент роутера) | **AP (точка доступа)** |
+| **Пины моторов** | `{15, 13, 12, 14}` | **`{5, 13, 12, 14}`** |
+| **ШИМ управление** | ❌ (только HIGH/LOW) | ✅ **ENA + ENB** |
+| **Авторизация** | ❌ | ✅ **HTTP Basic Auth** |
+| **OTA обновления** | ❌ | ✅ **ArduinoOTA** |
+| **Сохранение настроек** | ❌ | ✅ **EEPROM с маркером** |
+| **Serial CLI** | ❌ | ✅ **8 команд** |
+| **Секреты в git** | ⚠️ hardcoded | ✅ **`secrets.h`** |
+| **Дизайн UI** | Базовый Hi-Tech | 🎨 **Glassmorphism + градиенты** |
 
 ---
 
@@ -74,19 +90,19 @@ ESPBOT — это автономная прошивка для ESP8266, прев
 ╔═══════════════════════════════════════════════════════╗
 ║                 ESPBOT v2.0 PINOUT                    ║
 ╠═══════════════════════════════════════════════════════╣
-║  ESP8266 GPIO    │  D-Pin  │  L298N     │  Функция    ║
+║  ESP8266 GPIO    │  D-Pin  │  L298N     │  Функция   ║
 ╠═══════════════════════════════════════════════════════╣
-║  GPIO 5          │  D1     │  IN1       │  Лев.Вперёд ║
-║  GPIO 13         │  D7     │  IN2       │  Лев.Назад  ║
-║  GPIO 12         │  D6     │  IN3       │  Пр.Вперёд  ║
-║  GPIO 14         │  D5     │  IN4       │  Пр.Назад   ║
-║  GPIO 4          │  D2     │  ENA       │  Лев.ШИМ    ║
-║  GPIO 0          │  D3     │  ENB       │  Пр.ШИМ     ║
-║  GND             │  GND    │  GND       │  Общий      ║
-║  3.3V / 5V       │  3V3    │  5V        │  Логика     ║
-║  —               │  —      │  12V       │  Питание М  ║
+║  GPIO 5          │  D1     │  IN1       │  Лев.Вперёд║
+║  GPIO 13         │  D7     │  IN2       │  Лев.Назад ║
+║  GPIO 12         │  D6     │  IN3       │  Пр.Вперёд ║
+║  GPIO 14         │  D5     │  IN4       │  Пр.Назад  ║
+║  GPIO 4          │  D2     │  ENA       │  Лев.ШИМ   ║
+║  GPIO 0          │  D3     │  ENB       │  Пр.ШИМ    ║
+║  GND             │  GND    │  GND       │  Общий     ║
+║  3.3V / 5V       │  3V3    │  5V        │  Логика    ║
+║  —               │  —      │  12V       │  Питание М ║
 ╠═══════════════════════════════════════════════════════╣
-║  A0 (ADC)        │  A0     │  —         │  Сенсор     ║
+║  A0 (ADC)        │  A0     │  —         │  Сенсор    ║
 ╚═══════════════════════════════════════════════════════╝
 ```
 
@@ -102,7 +118,14 @@ git clone https://github.com/your-username/espbot-v2.git
 cd espbot-v2
 ```
 
-### 2. Настроить Arduino IDE
+### 2. Настроить секреты
+```bash
+cp secrets.example.h secrets.h
+# Отредактируйте secrets.h своими значениями
+nano secrets.h
+```
+
+### 3. Настроить Arduino IDE
 1. **File → Preferences → Additional Boards Manager URLs:**
    ```text
    http://arduino.esp8266.com/stable/package_esp8266com_index.json
@@ -111,8 +134,8 @@ cd espbot-v2
 3. **Tools → Board:** → `NodeMCU 1.0 (ESP-12E Module)`
 4. **Tools → Flash Size:** → `4MB (FS:1MB OTA:~1019KB)`
 
-### 3. Прошить
-Откройте `ESP8266_L298N_wifi_v2.0.ino` и нажмите **Upload** (⬆️).
+### 4. Прошить
+Откройте `ESPBOT_v2.ino` и нажмите **Upload** (⬆️).
 
 ---
 
@@ -123,13 +146,16 @@ cd espbot-v2
 ```text
 ╔══════════════════════════════════╗
 ║   ESPBOT v2.0 — HI-TECH CTRL     ║
-║   (c) sa | juniorgenius.ru       ║
+║   (c) sa | juniorgenius.ru/it    ║
 ╚══════════════════════════════════╝
+[EEPROM] Initialized with secrets.h values
 [WIFI] AP 'ESPBOT' started
 [WIFI] IP: 192.168.4.1
 [HTTP] Server started
 [SYS] Type 'help' for CLI
 ```
+
+### 🔑 Значения по умолчанию (из `secrets.example.h`)
 
 | Параметр | Значение |
 |---|---|
@@ -210,19 +236,13 @@ reboot        - Restart ESP
 3. Введите пароль: `espbot`
 4. Нажмите **Upload**
 
-### Через CLI:
-```cpp
-// Изменить имя хоста (опционально)
-ArduinoOTA.setHostname("MY-ESPBOT");
-```
-
 > ⚠️ Во время OTA моторы автоматически останавливаются для безопасности!
 
 ---
 
 ## 💾 EEPROM Структура
 
-Настройки хранятся в EEPROM (512 байт) и переживают перезагрузку.
+Настройки хранятся в EEPROM (512 байт) с маркером валидности `0xAA`.
 
 ```cpp
 struct Settings {
@@ -232,6 +252,16 @@ struct Settings {
   char webPass[32];   // Пароль веб-интерфейса
   uint8_t valid;      // Маркер 0xAA (защита от мусора)
 };
+```
+
+### Дамп EEPROM
+```bash
+> backup
+==== EEPROM BACKUP (512 bytes) ====
+45 53 50 42 4F 54 00 00 00 00 00 00 00 00 00 00  ESPBOT..........
+31 32 33 34 35 36 37 38 00 00 00 00 00 00 00 00  12345678........
+...
+==================================
 ```
 
 ---
@@ -252,6 +282,13 @@ struct Settings {
 - Пароль OTA: `espbot` (по умолчанию)
 - Проверьте, что размер прошивки < 500KB
 
+### ❔ Сбросить настройки к заводским
+Временно измените в `loadSettings()` условие проверки маркера:
+```cpp
+if (true) { // вместо settings.valid != VALID_MARKER
+```
+Перезагрузите — значения из `secrets.h` будут записаны заново.
+
 ---
 
 ## 📂 Структура проекта
@@ -259,7 +296,10 @@ struct Settings {
 ```text
 espbot-v2/
 ├── ESP8266_L298N_wifi_v2.0.ino # Основной код прошивки
+├── secrets.h                   # 🔒 Ваши секреты (НЕ в git)
+├── secrets.example.h           # 📋 Пример для репозитория
 ├── README.md                   # Этот файл
+├── .gitignore                  # Игнорируемые файлы
 ├── LICENSE                     # MIT лицензия
 └── docs/
     ├── espbot_banner.png       # Баннер проекта
@@ -272,19 +312,20 @@ espbot-v2/
 ## 🛣️ Roadmap
 
 - [ ] Поддержка камеры ESP32-CAM
-- [ ] Управление джойстиком (виртуальным)
-- [ ] Телеметрия в реальном времени
+- [ ] Виртуальный джойстик (nipple.js)
+- [ ] Телеметрия в реальном времени (WebSocket)
 - [ ] PID-регулятор скорости
 - [ ] Веб-интерфейс на Vue.js
 - [ ] Голосовое управление (Web Speech API)
-- [ ] Мульти-робот система
+- [ ] Мульти-робот система (mesh network)
+- [ ] Поддержка гироскопа MPU6050
 
 ---
 
 ## 👨‍💻 Автор
 
-**© sa**  
-🌐 [www.juniorgenius.ru](http://www.juniorgenius.ru/it)
+**© dsaru**  
+🌐 [www.juniorgenius.ru/it](http://www.juniorgenius.ru/it)
 
 ### Поддержать проект
 Если проект оказался полезен, поставьте ⭐ на GitHub!
@@ -293,12 +334,12 @@ espbot-v2/
 
 ## 📄 Лицензия
 
-Этот проект распространяется под лицензией **MIT**. См. файл [LICENSE](LICENSE) для подробностей.
+Этот проект распространяется под лицензией **MIT** — свободное использование с сохранением уведомления об авторстве.
 
 ```text
 MIT License
 
-Copyright (c) 2026 sa | juniorgenius.ru
+Copyright (c) 2026 dsaru | www.juniorgenius.ru/it
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -311,7 +352,7 @@ in the Software without restriction...
 
 - 📚 [ESP8266 Arduino Core Documentation](https://arduino-esp8266.readthedocs.io/)
 - 📚 [L298N Datasheet](https://www.st.com/resource/en/datasheet/l298.pdf)
-- 🎓 [Junior Genius — обучение робототехнике](http://www.juniorgenius.ru/it)
+- 🎓 [Junior Genius IT — обучение робототехнике](http://www.juniorgenius.ru/it)
 
 ---
 
@@ -321,5 +362,3 @@ in the Software without restriction...
 </p>
 ```
 
-
-  
