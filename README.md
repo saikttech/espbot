@@ -360,5 +360,5 @@ in the Software without restriction...
   <b>Made with ⚡ by ESPBOT Team</b><br>
   <sub>© sa | www.juniorgenius.ru/it | 2026</sub>
 </p>
-```
+
 
