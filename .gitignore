@@ -1,55 +1,80 @@
-# Prerequisites
-*.d
+# =========================
+# ОС / системные файлы
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
 
-# Object files
-*.o
-*.ko
-*.obj
+# =========================
+# Arduino / сборка
+# =========================
+build/
+output/
+release/
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
 *.hex
+*.bin
+*.eep
+*.map
+*.sym
+*.lst
+*.d
+*.o
+*.a
+*.bak
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# =========================
+# Arduino IDE / кэш
+# =========================
+*.ino.backup
+*.ino.bak
+*.old
+arduino-cache/
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# =========================
+# PlatformIO / Python
+# =========================
+.pio/
+.pioenvs/
+.piolibdeps/
+__pycache__/
+*.pyc
 
-# debug information files
-*.dwo
+# =========================
+# IDE / редакторы
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# Секреты и локальные настройки
+# =========================
+secrets.h
+config.local.h
+wifi.local.h
+.env
+*.local
+
+# Разрешаем примеры секретов/конфигов
+!secrets.example.h
+!config.example.h
+
+# =========================
+# Логи / бэкапы EEPROM
+# =========================
+*.log
+backups/
+*.backup
+*.eeprom
+*.dump
+
+# =========================
+# Node.js / docs tooling
+# =========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
