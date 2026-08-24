@@ -323,7 +323,7 @@ espbot-v2/
 ## 👨‍💻 Автор
 
 **© dsaru**  
-🌐 [www.juniorgenius.ru/it](http://www.juniorgenius.ru/it)
+🌐 [www.juniorgenius.ru/it](http://www.juniorgenius.ru/bugulma)
 
 ### Поддержать проект
 Если проект оказался полезен, поставьте ⭐ на GitHub!
@@ -337,7 +337,7 @@ espbot-v2/
 ```text
 MIT License
 
-Copyright (c) 2026 dsaru | www.juniorgenius.ru/it
+Copyright (c) 2026 dsaru | www.juniorgenius.ru/bugulma
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
