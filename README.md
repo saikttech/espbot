@@ -1,5 +1,3 @@
-# 📖 README.md — ESPBOT v2.0
-
 ```markdown
 # ⚡ ESPBOT v2.0 — ESP8266 WiFi WebRobot
 
@@ -114,7 +112,7 @@
 
 ### 1. Клонировать репозиторий
 ```bash
-git clone https://github.com/your-username/espbot-v2.git
+git clone https://github.com/saikttech/espbot-v2.git
 cd espbot-v2
 ```
 
