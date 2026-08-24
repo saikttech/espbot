@@ -356,7 +356,7 @@ in the Software without restriction...
 
 <p align="center">
   <b>Made with ⚡ by ESPBOT Team</b><br>
-  <sub>© sa | www.juniorgenius.ru/it | 2026</sub>
+  <sub>© sa | www.juniorgenius.ru/bugulma | 2026</sub>
 </p>
 
 
